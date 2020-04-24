@@ -1,71 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
+import AppRouter from './routers/AppRouter';
 import * as serviceWorker from './serviceWorker';
-import { createStore, combineReducers } from 'redux';
-//:::::::::::::::::::::::::::::::::::::::::::::::::::
-/* const demoState = {
-  expenses: [
-    {
-      id: 123,
-      description: 'January Rent',
-      note: 'Final payment for address',
-      amout: 54500,
-      createdAt: 0,
-    },
-  ],
-  filters: {
-    text: 'Rent',
-    sortBy: 'amount', //date or amount
-    startDate: undefined,
-    endDate: undefined,
-  },
-}; */
-// ::::::::::::::::::::::ACTIONS::::::::::::::::::::::::::::::::::
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import { addExpense } from './actions/expenses';
 
-//ADD_EXPENSE
+import getVisibleExpenses from './selectors/expenses';
 
-//REMOVE_EXPESE
+const store = configureStore();
+store.dispatch(addExpense({ description: 'Water bill' }));
+store.dispatch(addExpense({ description: 'Gas bill' }));
+// store.dispatch(setTextFilter('water'));
 
-//EDIT_EXPENSE
+const state = store.getState();
+const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+console.log(visibleExpenses);
 
-//SET_TEXT_FILTER
-
-//SORT_BY_DATE
-
-//SORT_BY_AMOUNT
-
-//SORT_BY_START_DATE
-
-//SORT_BY_END_DATE
-
-//:::::::::EXPENSES REDUCER
-const exepensesReducerInitialState = [];
-const expensesReducer = (state = exepensesReducerInitialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-//:::::::FILTERS REDUCER
-const filtersReducerInitialState = {};
-const filtersReducer = (state = filtersReducerInitialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-//:::::::STORE
-const store = createStore(
-  combineReducers({ expenses: expensesReducer, filters: filtersReducer })
-);
-console.log(store.getState());
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>,
   document.getElementById('root')
 );
 

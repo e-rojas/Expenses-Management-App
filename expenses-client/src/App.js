@@ -1,12 +1,19 @@
 import React from 'react';
-
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <h1>Expenses App</h1>
-    </div>
+    <BrowserRouter>
+      <div>
+        <Switch>
+          {/*  <Route path="/" component={Expensedashboard} exact={true} />
+          <Route path="/create" component={Addexpense} />
+          <Route path="/edit" component={Editexpense} />
+          <Route path="/help" component={Help} />
+          <Route component={Notfound} /> */}
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
